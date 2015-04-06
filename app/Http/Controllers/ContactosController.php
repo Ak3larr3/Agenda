@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use Input;
+use Redirect;
 use App\Contacto;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -36,7 +38,11 @@ class ContactosController extends Controller {
 	 */
 	public function store()
 	{
-		//
+		$input = Input::all();
+		Contacto::create( $input );
+ 
+		return Redirect::route('contactos.index')->with('message', 'Contacto creado.');
+
 	}
 
 	/**
@@ -69,7 +75,11 @@ class ContactosController extends Controller {
 	 */
 	public function update(Contacto $contacto)
 	{
-		//
+		$input = array_except(Input::all(), '_method');
+		$contacto->update($input);
+ 
+		return Redirect::route('contactos.show', $contacto->id)->with('message', 'Contacto modificado.');
+
 	}
 
 	/**
@@ -80,7 +90,9 @@ class ContactosController extends Controller {
 	 */
 	public function destroy(Contacto $contacto)
 	{
-		//
-	}
+		$contacto->delete();
+ 
+		return Redirect::route('contactos.index')->with('message', 'Contacto borrado.');
+}	
 
 }

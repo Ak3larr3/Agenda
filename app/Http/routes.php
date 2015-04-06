@@ -24,3 +24,8 @@ Route::get('/', 'WelcomeController@index');
 
 Route::resource('contactos','ContactosController');
 
+Route::bind('contactos', function($value, $route) {
+	return App\Contacto::whereId($value)->first();
+});
+
+
